@@ -45,9 +45,10 @@
 | the active record class
 */
 
-//Test Menu Baru
 $active_group = 'default';
 $active_record = TRUE;
+
+//Merubah Untuk Build Baca Konfig
 
 // $db['default']['hostname'] = 'localhost';
 // $db['default']['database'] = 'MC';
@@ -62,7 +63,7 @@ $active_record = TRUE;
 $db['default']['hostname'] = '10.1.0.92';
 $db['default']['database'] = 'MC';
 $db['default']['username'] = "mishirin"; 
-$db['default']['password'] = "br4v01nd14T4n990"; 
+$db['default']['password'] = "br4v01nd14T4n990";
 $db['default']['dbdriver'] = 'sqlsrv';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = FALSE;
