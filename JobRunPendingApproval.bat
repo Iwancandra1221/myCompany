@@ -1,0 +1,1 @@
+curl http://10.1.0.122:8080/mycompany/TargetSalesman/JobRunPendingApproval

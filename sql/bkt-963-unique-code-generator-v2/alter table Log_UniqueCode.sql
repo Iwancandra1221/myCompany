@@ -1,0 +1,1 @@
+ALTER TABLE Log_UniqueCode ADD send_api_mishirin bit DEFAULT 0 NOT NULL

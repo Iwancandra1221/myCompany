@@ -1,0 +1,23 @@
+CREATE TABLE Mst_TunjanganPrestasi_v2(
+	ConfigId int not null IDENTITY(1,1),
+	EmpPositionID varchar(255) not null,
+	BranchCode varchar(255) not null,
+	StartDate date not null,
+	TPOmzet bit not null,
+	TPOmzetMethod varchar(255) not null,
+	TPOmzetMultiplier decimal(18,2),
+	TPOmzetBobot DECIMAL(18,2),
+	TPKPI bit not null,
+	TPKPIMaxPercent int NOT null,
+	TPKPIMethod varchar(255) not null,
+	TPKPIMultiplier decimal(18,2),
+	TPKPIBobot DECIMAL(18,2),
+	SkipPelunasan bit not null,
+	PotonganDenda bit not null,
+	PembayaranSubsidi bit not null,
+	CreatedBy varchar(255) null,
+	CreatedDate datetime null,
+	ModifiedBy varchar(255) null,
+	ModifiedDate datetime null,
+	PRIMARY KEY(EmpPositionID,BranchCode)
+)

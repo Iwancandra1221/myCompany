@@ -1,0 +1,262 @@
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('../fonts/RobotoMono-Bold.ttf') format('truetype'),
+         url('../fonts/RobotoMono-BoldItalic.ttf') format('truetype'),
+         url('../fonts/RobotoMono-Regular.ttf') format('truetype'),
+         url('../fonts/RobotoMono-Italic.ttf') format('truetype'),
+         url('../fonts/RobotoMono-Medium.ttf') format('truetype'),
+         url('../fonts/RobotoMono-MediumItalic.ttf') format('truetype'),
+         url('../fonts/RobotoMono-Light.ttf') format('truetype'),
+         url('../fonts/RobotoMono-LightItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'droid_sansregular';
+    src: url('../fonts/droidsans.eot');
+    src: url('../fonts/droidsans.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/droidsans.woff2') format('woff2'),
+         url('../fonts/droidsans.woff') format('woff'),
+         url('../fonts/droidsans.ttf') format('truetype'),
+         url('../fonts/droidsans.svg#droid_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'open_sanscondensed_light';
+    src: url('../fonts/OpenSans-CondLight-webfont.eot');
+    src: url('../fonts/OpenSans-CondLight-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/OpenSans-CondLight-webfont.woff') format('woff'),
+         url('../fonts/OpenSans-CondLight-webfont.ttf') format('truetype'),
+         url('../fonts/OpenSans-CondLight-webfont.svg#open_sanscondensed_light') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html,body,p,h1,h2,h3,h4,h5,h6
+{    
+    padding: 0px;
+    margin: 0px;
+    /*font-family: 'Libre Franklin', sans-serif;*/
+    font-family: 'Poppins','droid_sansregular', 'Roboto Mono', Arial, sans-serif!important;
+    font-size: 15px;
+}
+
+body {
+  padding-top:60px;
+}
+
+.container {
+    background-color: #fff;
+    padding-top:45px;
+    padding-bottom: 50px!important;
+    font-family: 'Poppins','Roboto Mono', sans-serif;
+    font-size:14px;
+}
+
+.form_title{
+    font-size:16px;
+    font-weight:bold;
+    text-align: left;
+}
+a
+{
+    color: blue;
+    text-decoration: none;
+}
+
+.glyphicon-search { color:#3498db; }
+.glyphicon-pencil { color:#2980b9; }
+.glyphicon-trash { color: #c0392b; }
+.glyphicon-calendar { color:#8e44ad; }
+.glyphicon-list-alt { color:#16a085; }
+
+* {
+    box-sizing: border-box;
+}
+
+.clearfix
+{
+    clear:both;
+}
+
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.rowHeader {
+    color: #fff !important;
+    background: rgba(255,153,0,0.75);
+    border-right:1px dashed #999;
+    border-bottom:1px dashed #999;
+}
+
+.no_padding_bottom {
+    padding-bottom: 0px!important;
+}
+
+.hideMe {
+    display:none;
+}
+
+.PopUpForm form {
+    width: 50% !important;
+    height: 80% !important;
+    margin: auto;
+    margin-top: 5%;
+    /*background: #fff;*/
+    border-radius:5px;
+    box-shadow: 2px 2px 15px 1px #fff;
+    position: relative;
+    background-color: #fff6d1;
+    /*background: #83a4d4;  
+    background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);  
+    background: linear-gradient(to right, #b6fbff, #83a4d4); */
+}
+
+.formPopUp {
+    width: 50% !important;
+    height: 80% !important;
+    margin: auto;
+    margin-top: 5%;
+    /*background: #fff;*/
+    border-radius:5px;
+    box-shadow: 2px 2px 15px 1px #fff;
+    position: relative;
+    background-color: #fff6d1;
+    /*background: #83a4d4;  
+    background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);  
+    background: linear-gradient(to right, #b6fbff, #83a4d4); */
+}
+
+.form-500-400 {
+    width:500px!important; 
+    height:400px!important;
+    padding:10px;
+}
+.formPopUp2 {
+    padding:10px;
+}
+
+
+
+
+/*@media only screen and (min-width: 768px) {*/
+    /* For desktop: */
+    .colMobile { display:none; }
+    .colMobileLabel { display:none; }
+    .colMobileData { width:100%; border:0px; }
+    .borderBottom { margin-bottom:0px !important; border-bottom: 1px dashed #ccc !important; }
+    .row { padding-bottom:0px !important; }
+    [class*="col-"] { 
+        float:left;
+        padding: 10px !important; 
+    }
+    .kanan { text-align: right; }
+
+    .col-0 {width: 0%;}
+    .col-1 {width: 8.33%;}
+    .col-2 {width: 16.66%;}
+    .col-3 {width: 25%;}
+    .col-4 {width: 33.33%;}
+    .col-5 {width: 41.66%;}
+    .col-6 {width: 50%;}
+    .col-7 {width: 58.33%;}
+    .col-8 {width: 66.66%;}
+    .col-9 {width: 75%;}
+    .col-10 {width: 83.33%;}
+    .col-11 {width: 91.66%;}
+    .col-12 {width: 100%;}
+/*}*/
+
+@media only screen and (max-width: 960px) {
+
+    /* For tablets: */
+    .colMobile { display:none; }
+    .colMobileLabel { display:none; }
+    .colMobileData { width:100%; border:0px; }
+    .borderBottom { margin-bottom:0px !important; border-bottom: 1px dashed #ccc !important; }
+    .row { padding-bottom:0px !important; }
+    [class*="col-"] { 
+        float:left;
+        padding: 5px !important; 
+    }
+    .kanan { text-align: right !important; }
+
+    .col-m-0 {width: 0%;}
+    .col-m-1 {width: 8.33%;}
+    .col-m-2 {width: 16.66%;}
+    .col-m-3 {width: 25%;}
+    .col-m-4 {width: 33.33%;}
+    .col-m-5 {width: 41.66%;}
+    .col-m-6 {width: 50%;}
+    .col-m-7 {width: 58.33%;}
+    .col-m-8 {width: 66.66%;}
+    .col-m-9 {width: 75%;}
+    .col-m-10 {width: 83.33%;}
+    .col-m-11 {width: 91.66%;}
+    .col-m-12 {width: 100%;}
+}
+
+    .user_input { width:50%; }
+    .colRole { width:30%; }
+    .btn {
+        cursor: pointer;
+        width:125px;
+        font-size:16px!important;
+        text-align: center;
+        background-color: #ccc;
+        font-weight: bold; color:#000!important; 
+    }
+    .btn:hover {
+        background-color: #0099ff;
+    }
+
+@media only screen and (max-width: 460px) {
+    .user_input { width:100%!important; }
+    .colRole { width:80%; }
+
+    /* For mobile phones: */
+    .colMobile { display:block; padding: 1px 10px 2px 10px !important; }
+    .colMobileLabel { width:40%;float:left; border:1px dashed #ccc; }
+    .colMobileData { width:60%; float:left; border:1px dashed #ccc; }
+    [class*="col-"] { 
+        width: 100%; 
+        float: left;
+        padding: 1px 10px 2px 10px !important;
+    }
+    .row { padding-bottom:4px !important; }
+    .borderBottom { margin-bottom:10px !important; border-bottom: 0px!important; }
+    .kanan { text-align: left !important;}
+    .hideOnMobile { display: none; }
+    .btn {
+        width:100px; font-size:12px!important;
+    }
+    h5 { font-size:10px!important; }
+
+    .PopUpForm form {
+        width: 98% !important;
+        height: 80% !important;
+        margin: auto;
+        margin-top: 20%;
+    }
+    .container { font-size:12px!important;}
+    .form_title{ font-size:15px!important;}
+
+    .form-500-400 {
+        width:100%!important; 
+        margin-top:15%;
+    }
+
+}
+
+.btn_custom{
+    padding: 10px 15px;
+    border-radius: 3px;
+    border: none;
+    font-size: 13px;
+}

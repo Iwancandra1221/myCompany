@@ -1,0 +1,854 @@
+
+<script>
+	var mode = "<?php echo($mode);?>";
+	var planHD = <?php echo(json_encode($planHD));?>;
+	var wilayahInclude = <?php echo(json_encode($wilayahInclude));?>;
+
+	var isDraft = <?php echo($isDraft);?>;
+	var ListMiyako = <?php echo(json_encode($list_miyako));?>;
+	var ListMicook = <?php echo(json_encode($list_micook));?>;
+	var ListRinnai = <?php echo(json_encode($list_rinnai));?>;
+	var ListShimizu = <?php echo(json_encode($list_shimizu));?>;
+	var ListCosanitary = <?php echo(json_encode($list_cosanitary));?>;
+
+	var BrgMiyako = <?php echo(json_encode($miyako));?>;
+	var BrgMicook = <?php echo(json_encode($micook));?>;
+	var BrgRinnai = <?php echo(json_encode($rinnai));?>;
+	var BrgShimizu = <?php echo(json_encode($shimizu));?>;
+	var BrgCosanitary = <?php echo(json_encode($cosanitary));?>;
+
+	var idx = 0; // untuk simpan nilai id unik terakhir supaya tidak ada yg double id jika ada row yg terhapus di baris tengah table
+	var brs = 0;
+
+	var Reset = function() {
+		// setDisable(false); // perlu remove tag disable untuk reset kembali semua value
+	
+		// $("#txtPlanCode").val('');
+		// $("#txtPlanName").val('');
+		// // $("#StartPlan").val("");
+		// // $("#EndPlan").val("");
+		// $("#filterDivisiReal").val('');
+		
+		// $("#statusDraft").html("");
+		// $("#status").text("");
+		// //$("#txtstatus").text("NEW");
+		
+		// $("#filterDivisi").val('');		
+		// $("#btnSubmit").prop("disabled", true);
+		// $("#btnSubmit").attr("disabled", true);
+		
+		
+		// RemoveAllBarang();
+		// $(".cboWilayah").attr("checked",false);
+
+		// $("#filterDivisiReal").attr("disabled", false);
+		// $("#filterDivisiReal").attr("prop", false);
+		// $("#txtPlanCode").attr("disabled", true);
+		// $("#txtPlanCode").attr("prop", true);
+		// $("#txtPlanName").attr("disabled", false);
+		// $("#txtPlanName").attr("prop", false);
+		// // $("#StartPlan").attr("disabled", false);
+		// // $("#StartPlan").attr("prop", false);
+		// // $("#EndPlan").attr("disabled", false);
+		// // $("#EndPlan").attr("prop", false);
+
+	}
+
+	var RemoveBarang = function(i) {
+		// //Kalo Kode Barang Masih Kosong maka Langsung Remove 1 Row
+		// if ($("#filterBarang"+i).val()=="") {
+		// 	$("#kolumbrg" + i).remove();
+		// 	brs = brs - 1;
+		// } else if ($("#flagDraft_"+i).val()=="*") {
+		// 	$(".loading").show();
+		// 	var csrf_bit = $("input[name=csrf_bit]").val();
+		// 	$.post("<?php echo site_url('CampaignPlan/RemoveDraft'); ?>", {
+		// 		item_id			: i,
+		// 		kode_plan 		: $("#txtPlanCode").val(),
+		// 		kd_brg 			: $("#filterBarang"+i).val(),
+		// 		csrf_bit		: csrf_bit
+		// 	}, function(data){
+		// 		//alert(data.result + " : " + data.campaignId);
+		// 		if (data.result=="SUCCESS") {
+		// 			$("#kolumbrg" + i).remove();
+		// 			brs = brs - 1;
+		// 		} else {
+		// 			$("#StatusSave_"+i).html("<font color='red'>save failed: "+data.errMsg+"</font>");	
+		// 		}
+
+		// 	},'json',errorAjax);		
+		// 	$(".loading").hide();
+		// } else {
+		// 	if (confirm("Remove Barang "+$("#filterBarang"+i).val()+" ?")) {
+		// 		$(".loading").show();
+		// 		var csrf_bit = $("input[name=csrf_bit]").val();
+		// 		$.post("<?php echo site_url('CampaignPlan/RemoveItem'); ?>", {
+		// 			item_id			: i,
+		// 			kode_plan 		: $("#txtPlanCode").val(),
+		// 			kd_brg 			: $("#filterBarang"+i).val(),
+		// 			csrf_bit		: csrf_bit
+		// 		}, function(data){
+		// 			//alert(data.result + " : " + data.campaignId);
+		// 			if (data.result=="SUCCESS") {
+		// 				$("#kolumbrg" + i).remove();
+		// 				brs = brs - 1;
+		// 			} else {
+		// 				$("#StatusSave_"+i).html("<font color='red'>save failed: "+data.errMsg+"</font>");	
+		// 			}
+
+		// 		},'json',errorAjax);		
+		// 		$(".loading").hide();
+		// 	}
+		// }
+		// if (CheckEmptyProductExists()==false) {
+		// 	addRow();
+		// }
+	}
+
+	var RemoveAllBarang = function(i) {
+		// $('.rowbrg').each(function(i, obj) {
+		// 	$("#" + this.id ).remove();
+		// });
+		// idx = 0;
+		// brs = 0;
+	}
+	
+	var setDisable = function(b){
+		// $('.isdisabled').each(function( i ) {
+		// 	$(this).prop("disabled", b);
+		// 	$(this).attr("disabled", b);
+		//  });
+	}
+
+	var setPeriods = function() {
+
+	}	
+
+	var addRow = function(newRow=true, indeks=0, kdbrg="", ket="", draft=false, status="", disabled=false) {
+		//alert("adding Row");
+		if (newRow==true) {
+			idx += 1;
+		} else {
+			idx = indeks;
+		}
+
+		brs += 1;
+		var i = idx;
+
+
+		var tr = "<tr class='rowbrg'  id='kolumbrg" + i + "'>";
+		var td = "<td>" +
+			"<input type='button' onclick='RemoveBarang(\"" + i + "\")' id='btnRemoveDt" + i + "' class='isdisabled btnRemoveDt" + i + "' style='width:21px;padding:0px !important;background-color:red;'  value='-'>" +
+			"</td>";
+		var td1 = "<td class='dt-cell'>" +
+			"<input type='text' class='filterText filterBarang' name='filterBarang[]' id='filterBarang" + i + "' idx='"+i+"' brs='"+brs+"' " + 
+			"onfocus='SetAutoComplete("+i+")' onblur='productIdBlur("+i+", 1)' value='"+kdbrg+"' required>" +
+			"<input type='text' id='flagDraft_"+i+"' class='draft hideMe' value='"+((draft==true)?"*":"")+"'>" +
+			"</td>";
+			
+		var td2 = "<td class='dt-cell'>" +
+			"<input type='text' style='width:80px;' class='isdisabled KeteranganDt' idx='"+i+"' onblur='SaveDraft2("+i+", 4)' " + 
+			"name='KeteranganDt[]' id='KeteranganDt_" + i + "' min='1' value='"+ket+"' required>" +
+			"</td>";
+		var td3 = "<td class='dt-cell' id='StatusSave_"+i+"'>"+status+"</td></tr>";
+		$("#tbodyProducts").append(tr + td + td1 + td2 + td3);
+
+
+		if (newRow) {
+			// isiTanggal(i);
+			// //alert("isi tanggal Done");
+		} else {
+
+			// var StartCampaignHD = $('#StartPlan').val();
+			// var StartDate = new Date(StartCampaignHD);
+			// var EndCampaignHD = $('#EndPlan').val();
+			// var EndDate = new Date(EndCampaignHD);
+
+			// $('#DetailStartCampaign_' + i).datepicker({
+			//     minDate: new Date(-1*StartDate.getFullYear(), StartDate.getMonth(), StartDate.getDate()),
+			//     maxDate: new Date(-1*EndDate.getFullYear(), EndDate.getMonth(), EndDate.getDate())
+			// });			
+			// $('#DetailEndCampaign_' + i).datepicker({
+			//     minDate: new Date(-1*StartDate.getFullYear(), StartDate.getMonth(), StartDate.getDate()),
+			//     maxDate: new Date(-1*EndDate.getFullYear(), EndDate.getMonth(), EndDate.getDate())
+			// });			
+
+			if (draft==true) {
+				$("#flagDraft_"+i).removeClass("hideMe");
+			}
+		}
+
+		// if (newRow) {
+		// 	alert("Adding Row..");
+		// }
+
+		if (disabled==true) {
+			$("#filterBarang"+i).attr("readonly",true);
+			$("#filterBarang"+i).prop("readonly",true);
+		}
+		// activateDatepicker();
+	}
+
+	function SetAutoComplete(i) {		
+		var div = $("#filterDivisiReal").val();
+
+		if (div=="MIYAKO") {
+	    	$("#filterBarang"+i).autocomplete({
+      			source: BrgMiyako
+			});			
+		} else if (div=="MIYAKOKR") {
+	    	$("#filterBarang"+i).autocomplete({
+      			source: BrgMiyakokr
+			});
+		} else if (div=="RINNAI") {
+	    	$("#filterBarang"+i).autocomplete({
+      			source: BrgRinnai
+			});
+		} else if (div=="SHIMIZU") {
+	    	$("#filterBarang"+i).autocomplete({
+      			source: BrgShimizu
+			});
+		} else if (div=="CO&SANITARY") {
+	    	$("#filterBarang"+i).autocomplete({
+      			source: BrgCosanitary
+			});
+	    }
+	}
+
+	function productIdBlur(i, inputType=0) {
+
+		// var Divisi = $("#filterDivisiReal").val().toUpperCase();
+		// var KdBrg = $("#filterBarang"+i).val().toUpperCase();
+		
+		// var IdxBrg = 0;
+		// var KodeBrg="";
+		// var Baris = 0;
+
+		// $("#filterDivisiReal").val(Divisi);
+		// $("#filterDivisi").val(Divisi);
+		// $("#filterBarang"+i).val(KdBrg);
+
+		// //alert("productIdBlur");
+		// var ProductFound = false;
+		// if (KdBrg!="") {
+		// 	if (Divisi=="MIYAKO") {
+		// 		for(var b in ListMiyako)
+		// 		{
+		// 			if (ListMiyako[b].KD_BRG==KdBrg) {
+		// 				ProductFound=true;
+		// 				break;
+		// 			}
+		// 		}
+		// 	} else if (Divisi=="MICOOK") {
+		// 		for(var b in ListMicook)
+		// 		{
+		// 			if (ListMiyakokr[b].KD_BRG==KdBrg) {
+		// 				ProductFound=true;
+		// 				break;
+		// 			}
+		// 		}
+		// 	} else if (Divisi=="RINNAI") {
+		// 		for(var b in ListRinnai)
+		// 		{
+		// 			if (ListRinnai[b].KD_BRG==KdBrg) {
+		// 				ProductFound=true;
+		// 				break;
+		// 			}
+		// 		}
+		// 	} else if (Divisi=="SHIMIZU") {
+		// 		for(var b in ListShimizu)
+		// 		{
+		// 			if (ListShimizu[b].KD_BRG==KdBrg) {
+		// 				ProductFound=true;
+		// 				break;
+		// 			}
+		// 		}
+		// 	} else if (Divisi=="CO&SANITARY") {
+		// 		for(var b in ListCosanitary)
+		// 		{
+		// 			if (ListCosanitary[b].KD_BRG.trim()==KdBrg.trim()) {
+		// 				ProductFound=true;
+		// 				break;
+		// 			}
+		// 		}
+		// 	}
+
+		// 	if (ProductFound) {
+		// 		$(".filterBarang").each(function(){
+		// 			Baris += 1;
+		// 			IdxBrg = $(this).attr("idx");
+		// 			KodeBrg = $(this).val().toUpperCase();
+
+		// 			if (IdxBrg!=i) {
+		// 				if (KodeBrg==KdBrg) {
+		// 					alert("Kode Barang Sudah Ada di Baris #"+Baris);
+		// 					ProductFound=false;
+		// 					$("#filterBarang"+i).val("");
+		// 					return false;
+		// 				}						
+		// 			}
+		// 		});
+		// 	}
+
+		// 	if (ProductFound) {
+		// 		SaveDraft(i, inputType);
+		// 	} else {
+		// 		$("#filterBarang"+i).focus();
+		// 		alert("Kode Barang Tidak Terdaftar/Salah Divisi!");
+		// 	}
+		// }
+	}
+
+
+	function SaveDraft(i, inputType=0) {
+		// //alert("Save Draft");
+
+		// var Divisi = $("#filterDivisiReal").val().toUpperCase();
+		// var Kode = $("#txtPlanCode").val().toUpperCase();
+		// if (Kode=="") {
+		// 	Kode="AUTONUMBER";
+		// }
+		// // var Nama = $("#txtPlanName").val().toUpperCase();
+		// var StartHD = $("#StartPlan").val();
+		// var EndHD = $("#EndPlan").val();
+
+		// var KdBrg = $("#filterBarang"+i).val().toUpperCase();
+		
+		// //alert("Saving..");
+		// if (StartHD!="" && EndHD!="" && JumlahHariHD!="") {
+		// 	//alert("Headers are valid");
+
+		// 	if (KdBrg!="" && StartPlan!="" && EndPlan!="") {
+		// 		//alert("Details are Complete");
+		// 		// if (inputType==1) {
+		// 			$(".loading").show();
+		// 			var csrf_bit = $("input[name=csrf_bit]").val();
+		// 			$.post("<?php echo site_url('CampaignPlan/SaveDraft'); ?>", {
+		// 				item_id			: i,
+		// 				kode_plan 		: Kode,
+		// 				nama_plan 		: Nama,
+		// 				start_hd		: StartHD,
+		// 				end_hd			: EndHD,
+		// 				jumlah_hari_hd	: JumlahHariHD,
+		// 				divisi 			: Divisi,
+		// 				kd_brg 			: KdBrg,
+		// 				start_campaign	: StartPlan,
+		// 				end_campaign	: EndPlan,
+		// 				jumlah_hari		: JumlahHariCampaign,
+		// 				csrf_bit		: csrf_bit
+		// 			}, function(data){
+		// 				//alert(data.result + " : " + data.campaignId);
+		// 				if (data.result=="SUCCESS") {
+
+		// 					$("#btnSubmit").attr("disabled", false);
+		// 					$("#btnSubmit").prop("disabled", false);
+
+		// 					if (Kode=="AUTONUMBER" || Kode=="") {
+		// 						$("#txtPlanCode").attr("disabled", false);
+		// 						$("#txtPlanCode").prop("disabled", false);
+		// 						$("#txtPlanCode").val(data.campaignId);
+
+		// 					}
+		// 					$("#flagDraft_"+i).val("*");
+		// 					$("#flagDraft_"+i).removeClass("hideMe");
+		// 					//$("#StatusSave_"+i).html("<font color='green'> saved</font>");
+		// 					var emptyProductFound = false;
+		// 					$(".filterBarang").each(function(){
+		// 						if ($(this).val()=="") {
+		// 							emptyProductFound = true;
+		// 						}
+		// 					})
+		// 					if (emptyProductFound==false) {
+		// 						addRow();
+		// 					} 
+		// 					i = i+1;
+		// 					$("#filterBarang"+i).focus();
+		// 				} else {
+		// 					//$("#StatusSave_"+i).html("<font color='red'>save failed: "+data.errMsg+"</font>");	
+		// 				}
+
+		// 			},'json',errorAjax);		
+		// 			$(".loading").hide();
+		// 		// } else {
+		// 		// 	//do nothing
+		// 		// }
+		// 	} else {
+		// 		// alert("KdBrg:"+KdBrg+"\r\n"+
+		// 		// 	  "StartHD:"+StartPlan+"\r\n"+
+		// 		// 	  "EndHD:"+EndPlan+"\r\n"+
+		// 		// 	  "JmlHari:"+JumlahHariCampaign);
+
+		// 		//alert("Something is Wrong ("+inputType+")");
+		// 	}
+		// }
+	}
+
+	function SaveDraft2(i, inputType=0) {
+		// //alert("Save Draft");
+
+		// var Divisi = $("#filterDivisiReal").val().toUpperCase();
+		// var Kode = $("#txtPlanCode").val().toUpperCase();
+		// if (Kode=="") {
+		// 	Kode="AUTONUMBER";
+		// }
+		// // var Nama = $("#txtPlanName").val().toUpperCase();
+		// // var StartHD = $("#StartPlan").val();
+		// // var EndHD = $("#EndPlan").val();
+		// // var JumlahHariHD = $("#txtJumlahHari").val();
+
+		// var KdBrg = $("#filterBarang"+i).val().toUpperCase();
+		
+		// //alert("Headers are valid");
+
+		// if (KdBrg!="") {
+		// 	//alert("Details are Complete");
+		// 	// if (inputType==1) {
+		// 		$(".loading").show();
+		// 		var csrf_bit = $("input[name=csrf_bit]").val();
+		// 		$.post("<?php echo site_url('PlanPO/SaveDraft2'); ?>", {
+		// 			item_id			: i,
+		// 			kode_plan 		: Kode,
+		// 			divisi 			: Divisi,
+		// 			kd_brg 			: KdBrg,
+		// 			csrf_bit		: csrf_bit
+		// 		}, function(data){
+		// 			//alert(data.result + " : " + data.campaignId);
+		// 			if (data.result=="SUCCESS") {
+
+		// 				$("#btnSubmit").attr("disabled", false);
+		// 				$("#btnSubmit").prop("disabled", false);
+
+		// 				if (Kode=="AUTONUMBER" || Kode=="") {
+		// 					$("#txtPlanCode").attr("disabled", false);
+		// 					$("#txtPlanCode").prop("disabled", false);
+		// 					$("#txtPlanCode").val(data.campaignId);
+
+		// 				}
+		// 				$("#flagDraft_"+i).val("*");
+		// 				$("#flagDraft_"+i).removeClass("hideMe");
+		// 				//$("#StatusSave_"+i).html("<font color='green'> saved</font>");
+		// 				var emptyProductFound = false;
+		// 				$(".filterBarang").each(function(){
+		// 					if ($(this).val()=="") {
+		// 						emptyProductFound = true;
+		// 					}
+		// 				})
+		// 				if (emptyProductFound==false) {
+		// 					addRow();
+		// 				} 
+		// 				i = i+1;
+		// 				$("#filterBarang"+i).focus();
+		// 			} else {
+		// 				//$("#StatusSave_"+i).html("<font color='red'>save failed: "+data.errMsg+"</font>");	
+		// 			}
+
+		// 		},'json',errorAjax);		
+		// 		$(".loading").hide();
+		// 	// } else {
+		// 	// 	//do nothing
+		// 	// }
+		// } else {
+		// 	// alert("KdBrg:"+KdBrg+"\r\n"+
+		// 	// 	  "StartHD:"+StartPlan+"\r\n"+
+		// 	// 	  "EndHD:"+EndPlan+"\r\n"+
+		// 	// 	  "JmlHari:"+JumlahHariCampaign);
+
+		// 	//alert("Something is Wrong ("+inputType+")");
+		// }
+	
+	}
+
+	function checkEmpty(obj) {
+		var name = $(obj).attr("name");
+		// $("." + name + "-validation").html("");
+		$(obj).css("border", "");
+		if ($(obj).val() == "") {
+			$(obj).css("border-color", "#FF0000");
+			// $("." + name + "-validation").html("Required");
+			return false;
+		}
+
+		return true;
+	}
+
+	/*function hitungJumlahHariDT(i){
+		var StartCampaignDT = $('#DetailStartCampaign_'+i).val();
+		var EndCampaignDT = $('#DetailEndCampaign_'+i).val();
+		
+		if (StartCampaignDT!="" && EndCampaignDT!="") {
+			var StartDT = new Date(StartCampaignDT);
+			var EndDT = new Date(EndCampaignDT);
+
+			var StartCampaignHD = $('#StartPlan').val();
+			var StartDate = new Date(StartCampaignHD);
+			var EndCampaignHD = $('#EndPlan').val();
+			var EndDate = new Date(EndCampaignHD);
+			var JumlahHariHD = $("#txtJumlahHari").val();
+
+			var JumlahHariDT = $("#JumlahHariCampaign_"+i).val();
+			var JumlahHari = 0;
+
+			if (StartDT<StartDate || StartDate>EndDate) {
+				//alert("Tanggal Mulai Di luar Periode Rencana Campaign");
+				return false;
+			} else if (EndDate<StartDate || EndDT>EndDate) {
+				//alert("Tanggal Akhir Di Luar Periode Rencana Campaign");
+				return false;
+			} else {
+				//alert(StartDT);
+				if (StartDT==StartDate && EndDT==EndDate) {
+					$('#JumlahHariCampaign_'+i).val(JumlahHariHD);
+				} else {
+					if(Date.parse(EndCampaignDT) && Date.parse(StartCampaignDT)){
+						//alert("HitungJumlahHari");
+						var days = (Date.parse(EndCampaignDT)-Date.parse(StartCampaignDT)) / (1000 * 60 * 60 * 24) + 1;
+						
+						if (JumlahHariDT=="") {
+							//alert("#1: "+days);
+							$("#JumlahHariCampaign_"+i).val(days);
+						} else if (JumlahHariDT > days) {
+							//alert("#2: "+days);
+							$("#JumlahHariCampaign_"+i).val(days);
+						} else {
+							//alert("#3: "+JumlahHariDT);
+							$("#JumlahHariCampaign_"+i).val(JumlahHariDT);
+						}
+					} else {
+						//$('#JumlahHariCampaign_'+i).val("");
+					}
+				}
+
+				SaveDraft(i,0);
+				return true;
+
+			}
+		} else{
+			//alert("#3");
+			return false;
+		}
+	}*/
+
+	/*function StartCampaignLostFocus() {
+
+		var StartCampaignHD = $('#StartPlan').val();
+		var StartDate = new Date(StartCampaignHD);
+
+		$('#EndPlan').datepicker({
+		    minDate: new Date(-1*StartDate.getFullYear(), StartDate.getMonth(), StartDate.getDate())
+		});
+	}*/
+
+	/*function EndCampaignLostFocus() {
+
+		var EndCampaignHD = $('#EndPlan').val();
+		var EndDate = new Date(EndCampaignHD);
+
+		$('#StartPlan').datepicker({
+		    maxDate: new Date(-1*EndDate.getFullYear(), EndDate.getMonth(), EndDate.getDate())
+		});
+	}*/
+
+	function validate(val = "") {
+		// //alert("validating..");
+		// $("#btnSubmit").attr("disabled", true);
+		// $("#btnSubmit").prop("disabled", true);
+		// $("#btnNew").attr("disabled", true);
+		// $("#btnNew").prop("disabled", true);
+
+		// //alert("Validating..");
+		// var valid = validateHeader();
+		// // if (valid) {
+		// // 	alert("Header Terisi");
+		// // } else {
+		// // 	alert("Header Tidak Lengkap");
+		// // }
+
+		// var wilayahChecked = false;
+		// $('.cboWilayah').each(function() {
+		// 	if ($(this).prop("checked")==true) {
+		// 		wilayahChecked = true;
+		// 	}
+		// });
+		// // if (wilayahChecked) {
+		// // 	alert("Wilayah Valid");
+		// // } else {
+		// // 	alert("Wilayah Tidak Valid");
+		// // }
+		// valid = valid && wilayahChecked;
+
+		// if (valid) {
+		// 	// alert("Valid");
+		// 	if (CheckEmptyProductExists()==false) {
+		// 		//alert("Tidak Ada Empty Produk");
+		// 		//addRow();
+		// 		addRow();
+		// 	} else {
+		// 		//alert("Ada Empty Product");
+		// 	}
+
+		// 	$("#btnSubmit").attr("disabled", false);
+		// 	$("#btnSubmit").prop("disabled", false);		
+		// 	$("#btnNew").attr("disabled", false);
+		// 	$("#btnNew").prop("disabled", false);		
+		// } else {
+		// 	// alert("Tidak Valid");
+		// }
+		// return valid;
+		return true;
+	}
+
+	function CheckEmptyProductExists(){
+		return true;
+	}
+
+	function CheckEmptyProductExistsOld(){
+		// var emptyProductFound = false;
+		// $(".filterBarang").each(function(){
+		// 	if ($(this).val()=="") {
+		// 		emptyProductFound = true;
+		// 	}
+		// });
+		// return emptyProductFound;
+		return true;
+	}
+
+	function PlanNameBlur() {
+		// var idxProduct = 0;
+		// var PlanName = $("#txtPlanName").val();
+		// //alert(PlanName);
+		// var PlanID = $("#txtPlanCode").val();
+
+		// if (PlanName!="") {
+		// 	$(".filterBarang").each(function(){
+		// 		idxProduct = $(this).attr("idx");
+		// 		//alert($(this).val());
+		// 		SaveDraft(idxProduct, 1);
+		// 	})
+
+		// 	if (PlanID!="" && PlanID!="AUTONUMBER") {
+		// 		$("#txtPlanName").attr("disabled", true);
+		// 		$("#txtPlanName").attr("prop", true);
+		// 	}
+		// }
+
+		// validate();
+	}
+
+	function validateCheckbox(KdLokasi="", Wilayah="", Wilayah2="") {
+
+		// var isChecked = $("#Kota_"+Wilayah2).prop("checked");
+		// validate();
+		// SaveDraftWilayah(KdLokasi, Wilayah, Wilayah2, isChecked);
+	}
+
+	function validateHeader(){
+		return true;
+	}
+
+	function validateHeaderOld(){
+		var valid = true;
+		// // valid = checkEmpty($("#txtPlanName"));
+		// // valid = valid && checkEmpty($("#StartPlan"));
+		// // valid = valid && checkEmpty($("#EndPlan"));
+		// // valid = valid && checkEmpty($("#txtJumlahHari"));
+		// valid = valid && checkEmpty($("#filterDivisiReal"));
+
+		// // alert("Nama Plan: "+$("#txtPlanName").val()+"\r\n"+
+		// // 	  "Start : "+$("#StartPlan").val()+"\r\n"+
+		// // 	  "End : "+$("#EndPlan").val()+"\r\n"+
+		// // 	  "JumlahHari: "+$("#txtJumlahHari").val()+"\r\n"+
+		// // 	  "Divisi: "+$("#filterDivisiReal").val());
+
+		// if (valid) {
+		// 	//alert("VALID");
+		// 	if (CheckEmptyProductExists()==false) {
+		// 		//alert("Check Empty Product Row Done");
+		// 		addRow();
+		// 		// alert("Adding Row Done");
+		// 	}
+
+		// } else {
+		// 	//alert("TIDAK VALID");
+		// }
+
+		// // alert("Validating Header Done");
+		return valid;
+	}
+
+	function SaveDraftWilayah(KdLokasi, Wilayah, Wil, IsChecked) {
+		// var KodePlan = $("#txtPlanCode").val();
+		// //alert(Wilayah + " " + ((IsChecked)?"Checked":"Not Checked"));
+
+		// $(".loading").show();
+		// var csrf_bit = $("input[name=csrf_bit]").val();
+		// $.post("<?php echo site_url('CampaignPlan/SaveDraftWilayah'); ?>", {
+		// 	kode_plan 		: KodePlan,
+		// 	wilayah 		: Wilayah,
+		// 	kode_lokasi		: KdLokasi,
+		// 	is_checked		: ((IsChecked)?1:0),
+		// 	csrf_bit		: csrf_bit
+		// }, function(data){
+		// 	//alert(data.result + " : " + data.campaignId);
+		// 	if (data.result=="SUCCESS") {
+		// 		if (IsChecked) {
+		// 			//$("#StatusKota_"+Wil).html("<b>"+Wilayah+"</b> <smalldraft>DRAFT</smalldraft>");
+		// 			$("#StatusKota_"+Wil).html("<b>"+Wilayah+"</b>");
+		// 		} else {
+		// 			$("#StatusKota_"+Wil).html(""+Wilayah+"");
+		// 		}
+		// 	} else {
+		// 		$("#StatusKota_"+Wil).html(Wilayah+" <font color='red'>&nbsp;&nbsp;failed</font>");	
+		// 	}
+
+		// },'json',errorAjax);		
+		// $(".loading").hide();
+	}
+
+	function toggle(selectAll=true) 
+	{
+		// var KodePlan = $("#txtPlanCode").val();
+		
+		// $(".loading").show();
+		// var csrf_bit = $("input[name=csrf_bit]").val();
+		// $.post("<?php echo site_url('CampaignPlan/SaveDraftWilayah'); ?>", {
+		// 	kode_plan 		: KodePlan,
+		// 	wilayah 		: "ALL",
+		// 	kode_lokasi		: "ALL",
+		// 	is_checked		: ((selectAll)?1:0),
+		// 	csrf_bit		: csrf_bit
+		// }, function(data){
+		// 	//alert(data.result + " : " + data.campaignId);
+		// 	if (data.result=="SUCCESS") {
+		// 		$(".cboWilayah").prop("checked", selectAll);
+		// 		$(".cboWilayah").attr("checked", selectAll);
+		// 	}
+
+		// },'json',errorAjax);		
+		// $(".loading").hide();
+	}
+
+	$(document).ready(function() {	
+		$("#txtPlanCode").attr("disabled", true);
+		$("#txtPlanCode").prop("disabled", true);
+		$("#filterDivisiReal").val("");
+
+		if (mode=="edit") {
+			//alert(planHD[0].Division);
+			$("#filterDivisiReal").val(planHD[0].Division);
+			$("#txtPlanCode").val(planHD[0].CampaignID);
+			// $("#txtPlanName").val(planHD[0].CampaignName);
+			// $("#StartPlan").val(planHD[0].CampaignStartHD);
+			// $("#EndPlan").val(planHD[0].CampaignEndHD);
+			// $("#txtJumlahHari").val(planHD[0].JumlahHariHD);
+
+			// if (isDraft==1) {
+			// 	$("#statusDraft").text("DRAFT");
+			// }
+
+			idx = 0;
+			var maxIndeks = 0;
+			for(var p in planHD)
+			{
+				//if (idx < planHD[p].ItemID) {
+					idx = planHD[p].ItemID;
+				//}
+
+				if (idx>maxIndeks) {
+					maxIndeks = idx;
+				}
+
+				addRow(false, idx, planHD[p].ProductID, "", 
+					((planHD[p].IsDraft==1)?true:false), "", ((planHD[p].IsDraft==1)?false:true));
+			}
+
+			idx = maxIndeks;
+
+			for(var w in wilayahInclude)
+			{
+				$("#Kota_"+wilayahInclude[w].Wil).attr("checked",true);
+				$("#Kota_"+wilayahInclude[w].Wil).prop("checked",true);
+
+				if (wilayahInclude[w].DraftAdd==1) {
+					$("#StatusKota_"+wilayahInclude[w].Wil).html("<b>"+wilayahInclude[w].Wilayah+"</b>");
+					//$("#StatusKota_"+wilayahInclude[w].Wil).html("<b>"+wilayahInclude[w].Wilayah+"</b> <smalldraft>DRAFT</smalldraft>");
+				}
+			}
+
+			validate();
+			// addRow();
+
+			// $("#btnEmail").hide();
+			//activateDatepicker();
+			// $('.datepicker').datetimepicker('destroy');
+			// $('.datepicker').datepicker({
+			// 	altFormat: "dd-M-yy",
+			// 	format: "dd-M-yy",
+			// 	dateFormat: "dd-M-yy",
+			// 	autoclose: true,
+			// 	changeMonth: true
+			// });
+
+		} else {
+			$("#filterDivisi").val($("#filterDivisiReal").val());
+			$("#btnSubmit").prop("disabled", true);
+			$("#btnSubmit").attr("disabled", true);
+			// $("#btnEmail").hide();
+		}
+
+
+		/*$("#btnNew").click(function() {
+			if (idx>0) {
+				if (confirm("Batalkan Input Yang Ada?")) {
+					
+					$(".loading").show();
+					var csrf_bit = $("input[name=csrf_bit]").val();
+					$.post("<?php echo site_url('CampaignPlan/RemoveDrafts'); ?>", {
+						kode_plan 		: $("#txtPlanCode").val(),
+						csrf_bit		: csrf_bit
+					}, function(data){
+						if (data.result=="SUCCESS") {
+							alert("Draft Berhasil Dihapus");	
+							Reset();	
+						} else {
+
+						}
+
+					},'json',errorAjax);		
+					$(".loading").hide();
+
+				}
+			}
+		});
+
+		$("#btnSubmit").click(function() {
+			if($('input.cboWilayah:checked').length==0){
+				alert('Pilih minimal 1 wilayah!');
+				return false;
+			}
+
+			$("#filterDivisiReal").removeAttr("disabled");
+			$("#txtPlanCode").removeAttr("disabled");
+			// $("#txtPlanName").removeAttr("disabled");
+			// $("#CampaignStart").removeAttr("disabled");
+			// $("#CampaignEnd").removeAttr("disabled");
+			// $("#txtJumlahHari").removeAttr("disabled");
+
+			var isDisabled = $("#btnSubmit").prop('disabled');
+			if (!isDisabled) {
+				$(".filterBarang").each(function(){
+					if ($(this).val()=="") {
+						$(this).parent().parent().remove();
+					}
+				})
+			
+				if($("#txtIsEdit").val()=='edit'){
+					$("#FormPlanPO").attr("action", "PlanPO/EditPlanPO");
+				}
+				$("#checkBoxContainer").find("input").each(function(index, item) {
+					$(item).removeAttr('disabled');
+				});
+				$("#FormPlanPO").submit();
+			}
+		});*/	
+	});
+</script>

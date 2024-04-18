@@ -1,0 +1,2 @@
+ALTER TABLE TblBank
+ADD swift_code VARCHAR(255);

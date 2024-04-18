@@ -1,0 +1,13 @@
+{
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.8",
+        "setasign/fpdi": "^2.3",
+        "psr/log": "^1.1",
+        "mpdf/mpdf": "^8.1",
+        "firebase/php-jwt": "^6.0",
+        "paragonie/sodium_compat": "^1.19",
+        "paragonie/random_compat": "^9.99",
+        "myclabs/deep-copy": "^1.7",
+        "bugsnag/bugsnag": "^3.0"
+    }
+}
