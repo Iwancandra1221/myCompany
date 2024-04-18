@@ -62,6 +62,7 @@ $db['default']['hostname'] = '10.1.0.92';
 $db['default']['database'] = 'MC';
 $db['default']['username'] = "mishirin"; 
 $db['default']['password'] = "br4v01nd14T4n990";
+//ICANTEST
 
 
 $db['default']['dbdriver'] = 'sqlsrv';
