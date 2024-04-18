@@ -63,6 +63,7 @@ $db['default']['database'] = 'MC';
 $db['default']['username'] = "mishirin"; 
 $db['default']['password'] = "br4v01nd14T4n990";
 
+
 $db['default']['dbdriver'] = 'sqlsrv';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = FALSE;
