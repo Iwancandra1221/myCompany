@@ -45,6 +45,7 @@
 | the active record class
 */
 
+//Test Menu Baru
 $active_group = 'default';
 $active_record = TRUE;
 
@@ -61,8 +62,7 @@ $active_record = TRUE;
 $db['default']['hostname'] = '10.1.0.92';
 $db['default']['database'] = 'MC';
 $db['default']['username'] = "mishirin"; 
-$db['default']['password'] = "br4v01nd14T4n990";
-//ICANTEST Candra OK 
+$db['default']['password'] = "br4v01nd14T4n990"; 
 $db['default']['dbdriver'] = 'sqlsrv';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = FALSE;
